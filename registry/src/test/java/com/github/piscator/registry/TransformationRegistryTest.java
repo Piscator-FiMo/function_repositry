@@ -57,7 +57,11 @@ public class TransformationRegistryTest {
         ThreadBar bar = new ThreadBar();
         bar.run();
         assertEquals(foo.registry, bar.registry);
+        Object[] inputs = {"bar", 2};
         
+        assertEquals(foo.registry.getRegister().get("testBar").get(TestClass.class)[0], inputs[0]);
+        assertEquals(foo.registry.getRegister().get("testBar").get(TestClass.class)[1], inputs[1]);
+
 
     }
 }
