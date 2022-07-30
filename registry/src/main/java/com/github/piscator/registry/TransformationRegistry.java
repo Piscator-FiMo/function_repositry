@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
-
+/***
+ * Singleton Registry implementation
+ */
 @Getter
 public class TransformationRegistry {
     
@@ -20,6 +22,13 @@ public class TransformationRegistry {
         this.register = new HashMap<>();
     }
 
+    /**
+     * Get instance of TransformationRegistry, Registry of named Transformations with Class information and Arguments needed to 
+     * create instantiate given Class<?> 
+     * @param name of the Transformation must be unique
+     * @param transformation Map<Class<?>, Object[]> 
+     * @return THE instance of TransformationRegistry
+     */
     public static TransformationRegistry getInstance(String name, Map<Class<?>, Object[]> transformation) {
         TransformationRegistry result = instance;
         if (result != null) {
