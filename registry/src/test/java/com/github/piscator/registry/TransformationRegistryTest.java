@@ -64,4 +64,13 @@ public class TransformationRegistryTest {
 
 
     }
+
+    @Test
+    void testGet() {
+        TransformationRegistry registry = TransformationRegistry.getInstance();
+        Object[] inputs = {"stering", 1};
+        Map<Class<?>, Object[]> transformation = Map.of(TestClass.class, inputs);
+        registry = TransformationRegistry.getInstance("test", transformation);
+        assertEquals(inputs, registry.get("test").get(TestClass.class));
+    }
 }

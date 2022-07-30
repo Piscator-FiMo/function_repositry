@@ -62,4 +62,8 @@ public class TransformationRegistry {
         this.register.put(name, transformationClass);
     }
 
+    public Map<Class<?>, Object[]> get(String name) {
+        return this.register.get(name);
+    }
+
 }
