@@ -60,9 +60,11 @@ public class TransformationRegistryTest {
     @Test
     void testRegister() {
         ThreadFoo foo = new ThreadFoo();
-        foo.run();
+        Thread thread1 = new Thread(foo);
         ThreadBar bar = new ThreadBar();
-        bar.run();
+        Thread thread2 = new Thread(bar);
+        thread1.start();
+        thread2.start();
         assertEquals(foo.registry, bar.registry);
         Object[] inputs = {"bar", 2};
         
