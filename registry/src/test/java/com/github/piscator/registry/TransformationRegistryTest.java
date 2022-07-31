@@ -1,19 +1,26 @@
 package com.github.piscator.registry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+
+import com.github.piscator.exceptions.ConstructorNotFound;
 
 public class TransformationRegistryTest {
 
 
     class TestClass {
         String testClassName;
+        Integer number;
         public TestClass(String name){
             this.testClassName = name;
+        }
+        public TestClass(String name, Integer number) {
+            this.testClassName = name;
+            this.number = number;
         }
     }
 
@@ -73,4 +80,26 @@ public class TransformationRegistryTest {
         registry = TransformationRegistry.getInstance("test", transformation);
         assertEquals(inputs, registry.get("test").get(TestClass.class));
     }
+
+
+    @Test
+    void testGetTransformation() {
+        Object[] inputs = {"stering", 1};
+        Map<Class<?>, Object[]> transformation = Map.of(SimpleTestClass.class, inputs);
+        TransformationRegistry registry = TransformationRegistry.getInstance("test", transformation);
+        SimpleTestClass testClassInstance = registry.getTransformation("test");
+        assertEquals(SimpleTestClass.class, testClassInstance.getClass());
+    }
+
+    @Test
+    void testExceptionThrown() {
+        Object[] inputs = {"stering", 1};
+        Map<Class<?>, Object[]> transformation = Map.of(TestClass.class, inputs);
+        TransformationRegistry registry = TransformationRegistry.getInstance("test", transformation);
+        assertThrows(ConstructorNotFound.class, () -> registry.getTransformation("test"));
+        Object[] in = {1};
+        registry.register("test2", Map.of(SimpleTestClass.class, in));
+
+    }
+
 }
